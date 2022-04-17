@@ -11,6 +11,7 @@
 #include "Weight.h"
 
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -174,6 +175,22 @@ bool Weight::validate() const noexcept {
 }
 
 // Print the weight class
+// I just reused the PrintCat formatting from Cat.cpp that was provided and edited to match the variables
+#define FORMAT_LINE( className, member ) std::cout \
+                                      << std::setw(8) << (className) \
+                                      << std::setw(20) << (member)   \
+                                      << std::setw(52)  /* (data) */
+
 void Weight::dump() const noexcept {
 
+    cout << setw(80) << setfill( '=' ) << "" << endl ;
+    cout << setfill( ' ' ) ;
+    cout << left ;
+    cout << boolalpha ;
+    FORMAT_LINE( "Weight", "this" )         << "I'm not sure what goes here"   << endl ;
+    FORMAT_LINE( "Weight", "isKnown" )       << bIsKnown << endl ;
+    FORMAT_LINE( "Weight", "weight" )        <<  weight  << endl ;
+    FORMAT_LINE( "Weight", "unitOfWeight" )      << unitOfWeight << endl ;
+    FORMAT_LINE( "Weight", "hasMax" )       << bHasMax << endl ;
+    FORMAT_LINE( "Weight", "maxWeight")        << maxWeight << endl;
 }
