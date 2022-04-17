@@ -52,7 +52,7 @@ public:         // Getters
     float getWeight() const noexcept;
 
     // Get the weight in a specified unit
-    float getWeight(UnitOfWeight weightUnits);
+    float getWeight(UnitOfWeight weightUnits) const noexcept;
 
     // Get the maximum weight
     float getMaxWeight() const noexcept;
@@ -94,7 +94,7 @@ public:         // Operators
     bool operator<(const Weight &rhs_Weight) const;
 
     // Add to an existing weight
-    Weight& operator+=(float rhs_addToWeight);
+    Weight &operator+=(float rhs_addToWeight);
 
 
 /// Static Public Member Functions
@@ -114,7 +114,7 @@ public:         // Static Methods
 
 
     // Convert a weight between two different units
-    static float convertWeight (float fromWeight, UnitOfWeight fromUnit, UnitOfWeight toUnit) noexcept;
+    static float convertWeight(float fromWeight, UnitOfWeight fromUnit, UnitOfWeight toUnit) noexcept;
 
 
 /// Static Public Attributes
@@ -127,7 +127,7 @@ public:         // Constants and other stuff
     static const float KILOS_IN_A_POUND;
 
     // How many Slugs in a Pound
-    static const float SLUGS_IN_A_POUND ;
+    static const float SLUGS_IN_A_POUND;
 
 
     // The string label for Pounds

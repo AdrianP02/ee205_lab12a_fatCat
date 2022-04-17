@@ -12,11 +12,12 @@
 
 #include <iostream>
 #include <iomanip>
+#include <stdexcept>
 
 using namespace std;
 
 /// Define the Static Public Attributes
-const float Weight::UNKNOWN_WEIGHT = -1;
+const float Weight::UNKNOWN_WEIGHT = -1.0;
 
 const float Weight::KILOS_IN_A_POUND = 0.453592;
 const float Weight::SLUGS_IN_A_POUND = 0.031081;
@@ -77,7 +78,7 @@ float Weight::getWeight() const noexcept {
 }
 
 // Get the weight in a specific unit. Essentially we should return the result of our convertWeight function since we need the result of that
-float Weight::getWeight(Weight::UnitOfWeight weightUnits) {
+float Weight::getWeight(Weight::UnitOfWeight weightUnits) const noexcept {
     return convertWeight(weight, unitOfWeight, weightUnits);
 }
 
@@ -107,7 +108,7 @@ void Weight::setWeight(float newWeight) {
         bIsKnown = true;
     }
     else {
-        cout << "Weight does not seem to be valid" << endl;
+        // cout << "Weight does not seem to be valid" << endl;
         exit(EXIT_FAILURE);
     }
 }
@@ -182,21 +183,26 @@ bool Weight::validate() const noexcept {
                                       << std::setw(52)  /* (data) */
 
 void Weight::dump() const noexcept {
-
+    // Print ===================================================================
     cout << setw(80) << setfill( '=' ) << "" << endl ;
     cout << setfill( ' ' ) ;
     cout << left ;
     cout << boolalpha ;
-    FORMAT_LINE( "Weight", "this" )         << ""   << endl ; // I am not sure what goes here
-    FORMAT_LINE( "Weight", "isKnown" )       << bIsKnown << endl ;
-    FORMAT_LINE( "Weight", "weight" )        <<  weight  << endl ;
-    FORMAT_LINE( "Weight", "unitOfWeight" )      << unitOfWeight << endl ;
+
+    FORMAT_LINE( "Weight", "this" )         << "" << endl ;
+    FORMAT_LINE( "Weight", "isKnown" )          << bIsKnown << endl ;
+    FORMAT_LINE( "Weight", "weight" )       << weight << endl ;
+    FORMAT_LINE( "Weight", "unitOfWeight" )         << unitOfWeight << endl ;
     FORMAT_LINE( "Weight", "hasMax" )       << bHasMax << endl ;
-    FORMAT_LINE( "Weight", "maxWeight")        << maxWeight << endl;
+    FORMAT_LINE( "Weight", "maxWeight" )        << maxWeight << endl ;
 }
 
 
 // Operators
+bool Weight::operator==(const Weight& rhs_Weight) const {
+    float lhs_weight = (bIsKnown) ? getWeight(Weight::POUND) : 0;
+    float rhs_weight = (rhs_Weight.bIsKnown) ? rhs_Weight.getWeight(Weight::POUND) : 0;
+}
 
 
 
