@@ -183,7 +183,6 @@ bool Weight::validate() const noexcept {
                                       << std::setw(52)  /* (data) */
 
 void Weight::dump() const noexcept {
-    // Print ===================================================================
     cout << setw(80) << setfill( '=' ) << "" << endl ;
     cout << setfill( ' ' ) ;
     cout << left ;
