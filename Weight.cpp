@@ -194,3 +194,73 @@ void Weight::dump() const noexcept {
     FORMAT_LINE( "Weight", "hasMax" )       << bHasMax << endl ;
     FORMAT_LINE( "Weight", "maxWeight")        << maxWeight << endl;
 }
+
+
+// Operators
+
+
+
+/// Static Public Member Functions
+// Convert from Kilograms to Pounds
+float Weight::fromKilogramToPound( const float kilogram ) noexcept {
+    return kilogram / KILOS_IN_A_POUND ;
+}
+
+// Convert from Pounds to Kilograms
+float Weight::fromPoundToKilogram( const float pound ) noexcept {
+    return pound * KILOS_IN_A_POUND ;
+}
+
+
+// Convert from Slugs to Pounds
+float Weight::fromSlugToPound( const float slug ) noexcept {
+    return slug / SLUGS_IN_A_POUND ;
+}
+
+// Convert from Pounds to Slugs
+float Weight::fromPoundToSlug( const float pound ) noexcept {
+    return pound * SLUGS_IN_A_POUND ;
+}
+
+// Convert a weight between two different units
+// Recall the CatPower lab
+float Weight::convertWeight(float fromWeight, UnitOfWeight fromUnit, UnitOfWeight toUnit) noexcept {
+    // Set a common value
+    float commonValue;
+
+    switch (fromUnit) {
+        case POUND: commonValue = fromWeight;
+        break;
+
+        case KILO: commonValue = fromKilogramToPound(fromWeight);
+        break;
+
+        case SLUG: commonValue = fromSlugToPound(fromWeight);
+        break;
+    }
+
+    float toValue;
+    switch (toUnit) {
+        case POUND: toValue = commonValue;
+        break;
+
+        case KILO: toValue = fromPoundToKilogram(commonValue);
+        break;
+
+        case SLUG: toValue = fromPoundToSlug(commonValue);
+        break;
+    }
+    return toValue;
+}
+
+
+/// Private member functions
+// Set the maximum weight
+void Weight::setMaxWeight(float newMaxWeight) {
+    if (bHasMax == false) {
+        if (isWeightValid(newMaxWeight) == true) {
+            maxWeight = newMaxWeight;
+            bHasMax = true;
+        }
+    }
+}
