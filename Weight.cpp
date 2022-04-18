@@ -29,9 +29,7 @@ const string Weight::SLUG_LABEL  = "Slug";
 
 /// Public Member Functions
 // Create a default weight
-Weight::Weight() noexcept {
-
-}
+Weight::Weight() noexcept {}
 
 // Create a weight with a value. Unit should be set to the default unit.
 Weight::Weight(const float newWeight) {
@@ -176,24 +174,15 @@ bool Weight::validate() const noexcept {
 }
 
 // Print the weight class
-// I just reused the PrintCat formatting from Cat.cpp that was provided and edited to match the variables
-#define FORMAT_LINE( className, member ) std::cout \
-                                      << std::setw(8) << (className) \
-                                      << std::setw(20) << (member)   \
-                                      << std::setw(52)  /* (data) */
-
-void Weight::dump() const noexcept {
-    cout << setw(80) << setfill( '=' ) << "" << endl ;
-    cout << setfill( ' ' ) ;
-    cout << left ;
-    cout << boolalpha ;
-
-    FORMAT_LINE( "Weight", "this" )         << "" << endl ;
-    FORMAT_LINE( "Weight", "isKnown" )          << bIsKnown << endl ;
-    FORMAT_LINE( "Weight", "weight" )       << weight << endl ;
-    FORMAT_LINE( "Weight", "unitOfWeight" )         << unitOfWeight << endl ;
-    FORMAT_LINE( "Weight", "hasMax" )       << bHasMax << endl ;
-    FORMAT_LINE( "Weight", "maxWeight" )        << maxWeight << endl ;
+void Weight::dump(){
+    cout << "===============================================" << endl;
+    cout << "Weight     this                       " << &weight << endl;
+    cout << "Weight     isKnown                    " << bIsKnown << endl;
+    cout << "Weight     weight                     " << getWeight() << endl;
+    cout << "Weight     unitOfWeight               " << unitOfWeight << endl;
+    cout << "Weight     hasMax                     " << bHasMax << endl;
+    cout << "Weight     maxWeight                  " << getMaxWeight() << endl;
+    cout << "" << endl;
 }
 
 
@@ -201,8 +190,31 @@ void Weight::dump() const noexcept {
 bool Weight::operator==(const Weight& rhs_Weight) const {
     float lhs_weight = (bIsKnown) ? getWeight(Weight::POUND) : 0;
     float rhs_weight = (rhs_Weight.bIsKnown) ? rhs_Weight.getWeight(Weight::POUND) : 0;
+    return lhs_weight == rhs_weight;
 }
 
+std::ostream& operator<<( std::ostream& lhs_stream
+        ,const Weight::UnitOfWeight rhs_UnitOfWeight ) {
+    switch( rhs_UnitOfWeight ) {
+        case Weight::POUND: return lhs_stream << Weight::POUND_LABEL ;
+        case Weight::KILO: return lhs_stream << Weight::KILO_LABEL ;
+        case Weight::SLUG: return lhs_stream << Weight::SLUG_LABEL ;
+        default:
+            throw std::out_of_range( "The unit can’t be mapped to a string" );
+    }
+}
+
+bool Weight::operator<( const Weight& rhs_Weight ) const {
+    float lhs_weight = (bIsKnown) ? getWeight(Weight::POUND) : 0;
+    float rhs_weight = (rhs_Weight.bIsKnown) ? rhs_Weight.getWeight(Weight::POUND) : 0;
+    return lhs_weight < rhs_weight;
+}
+
+bool Weight::operator+=( float rhs_addToWeight ) const {
+    float lhs_weight = (bIsKnown) ? getWeight(Weight::POUND) : 0;
+    float rhs_weight = (rhs_addToWeight);
+    return lhs_weight + rhs_weight;
+}
 
 
 /// Static Public Member Functions
@@ -232,6 +244,8 @@ float Weight::fromPoundToSlug( const float pound ) noexcept {
 float Weight::convertWeight(float fromWeight, UnitOfWeight fromUnit, UnitOfWeight toUnit) noexcept {
     // Set a common value
     float commonValue;
+    // Set a to Value
+    float toValue;
 
     switch (fromUnit) {
         case POUND: commonValue = fromWeight;
@@ -244,7 +258,6 @@ float Weight::convertWeight(float fromWeight, UnitOfWeight fromUnit, UnitOfWeigh
         break;
     }
 
-    float toValue;
     switch (toUnit) {
         case POUND: toValue = commonValue;
         break;

@@ -41,7 +41,7 @@ public:         // Constructors
     Weight(float newWeight, float newMaxWeight);
 
     // Create a weight with a unit of weight and a maximum weight value
-    Weight(UnitOfWeight newUnitOfWeight, float newMaxWeight);
+    Weight(UnitOfWeight newUnitOfWeight, const float newMaxWeight);
 
     // Create a weight with a value, unit, and maximum weight
     Weight(float newWeight, UnitOfWeight newUnitOfWeight, float newMaxWeight);
@@ -83,7 +83,7 @@ public:         // Validation and other stuff
     bool validate() const noexcept;
 
     // Print the weight class
-    void dump() const noexcept;
+    void dump();
 
 
 public:         // Operators
@@ -94,7 +94,7 @@ public:         // Operators
     bool operator<(const Weight &rhs_Weight) const;
 
     // Add to an existing weight
-    Weight &operator+=(float rhs_addToWeight);
+    bool operator+=( float rhs_addToWeight ) const;
 
 
 /// Static Public Member Functions
